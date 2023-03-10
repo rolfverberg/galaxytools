@@ -1,0 +1,6 @@
+categories:
+- Structural Materials Analysis
+description: Plot SMB Image
+name: plot_smb_tiff
+owner: rv43
+remote_repository_url: https://github.com/rolfverberg/galaxytools

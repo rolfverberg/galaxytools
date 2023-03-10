@@ -1,0 +1,38 @@
+<tool id="plot_smb_tiff" name="Plot SMB Image" version="0.1.0" python_template_version="3.9">
+    <description>Plot an image for the SMB file schema</description>
+    <command detect_errors="exit_code"><![CDATA[
+        $__tool_directory__/plot_smb_tiff.py
+        --cycle '$cycle'
+        --station '$station'
+        --btr '$btr'
+        --sample '$sample'
+        --scan_number $scan_number
+        --image_index $image_index
+        -l '$log'
+    ]]></command>
+    <inputs>
+        <param name="cycle" type="text" optional="false" label="Run cycle"/>
+        <param name="station" type="select" label="Beamline station">
+            <option value="id1a3">id1a3</option>
+            <option value="id3a">id3a</option>
+        </param>
+        <param name="btr" type="text" optional="false" label="BTR"/>
+        <param name="sample" type="text" optional="false" label="Sample name"/>
+        <param name="scan_number" type='integer' value="-1" label="SPEC scan number"/>
+        <param name="image_index" type='integer' value="0" min="0" label="Image index relative the first"/>
+    </inputs>
+    <outputs>
+        <data name="log" format="txt" label="Log"/>
+    </outputs>
+    <help><![CDATA[
+        Plot an image for the SMB file schema
+    ]]></help>
+    <citations>
+        <citation type="bibtex">
+@misc{github_files,
+  author = {Verberg, Rolf},
+  year = {2022},
+}
+        </citation>
+    </citations>
+</tool>

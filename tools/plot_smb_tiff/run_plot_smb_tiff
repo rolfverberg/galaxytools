@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# As Galaxy tool:
+python plot_smb_tiff.py --cycle '2021-3' --station 'id3a' --btr 'z-3234-A' --sample 'tenstom_1304r-1' --scan_number 370 --image_index 5
+display image.jpg
