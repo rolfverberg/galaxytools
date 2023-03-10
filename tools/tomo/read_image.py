@@ -2,39 +2,70 @@
 
 import logging
 
-import sys
 import argparse
-import numpy as np
+import pathlib
+import sys
 
 def __main__():
 
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-            description='Read a reconstructed image')
-    parser.add_argument('-i', '--input_image',
-            help='Reconstructed image file')
-    parser.add_argument('-l', '--log', 
-            type=argparse.FileType('w'),
+            description='Read a raw or reconstructed image')
+    parser.add_argument('-i', '--input_file',
+            required=True,
+            type=pathlib.Path,
+            help='''Full or relative path to the input file (in yaml or nxs format).''')
+    parser.add_argument('--image_type',
+            required=False,
+            help='Image type (dark, bright, tomo_raw, tomo_reduced, or reconstructed')
+    parser.add_argument('--image_index',
+            required=False,
+            type=int,
+            help='Image index (only for raw or reduced images')
+    parser.add_argument('-l', '--log',
+#            type=argparse.FileType('w'),
             default=sys.stdout,
-            help='Log file')
+            help='Logging stream or filename')
+    parser.add_argument('--log_level',
+            choices=logging._nameToLevel.keys(),
+            default='INFO',
+            help='''Specify a preferred logging level.''')
     args = parser.parse_args()
 
-    # Set basic log configuration
+    # Set log configuration
+    # When logging to file, the stdout log level defaults to WARNING
     logging_format = '%(asctime)s : %(levelname)s - %(module)s : %(funcName)s - %(message)s'
-    log_level = 'INFO'
-    level = getattr(logging, log_level.upper(), None)
-    if not isinstance(level, int):
-        raise ValueError(f'Invalid log_level: {log_level}')
-    logging.basicConfig(format=logging_format, level=level, force=True,
-            handlers=[logging.StreamHandler()])
+    level = logging.getLevelName(args.log_level)
+    if args.log is sys.stdout:
+        logging.basicConfig(format=logging_format, level=level, force=True,
+                handlers=[logging.StreamHandler()])
+    else:
+        if isinstance(args.log, str):
+            logging.basicConfig(filename=f'{args.log}', filemode='w',
+                    format=logging_format, level=level, force=True)
+        elif isinstance(args.log, io.TextIOWrapper):
+            logging.basicConfig(filemode='w', format=logging_format, level=level,
+                    stream=args.log, force=True)
+        else:
+            raise(ValueError(f'Invalid argument --log: {args.log}'))
+        stream_handler = logging.StreamHandler()
+        logging.getLogger().addHandler(stream_handler)
+        stream_handler.setLevel(logging.WARNING)
+        stream_handler.setFormatter(logging.Formatter(logging_format))
 
-    logging.info(f'input_image = {args.input_image}')
+    # Log command line arguments
+    logging.info(f'input_file = {args.input_file}')
+    logging.info(f'image_type = {args.image_type}')
+    logging.info(f'image_index = {args.image_index}')
     logging.debug(f'log = {args.log}')
     logging.debug(f'is log stdout? {args.log is sys.stdout}')
 
-    # Load image
-    f = np.load(args.input_image)
-    logging.info(f'f shape = {f.shape}')
+    # Instantiate Tomo object
+    tomo = Tomo(galaxy_flag=args.galaxy_flag)
+
+    # Read input file
+    data = tomo.read(args.input_file)
+    print(f'data:\n{data}')
 
 if __name__ == "__main__":
     __main__()
