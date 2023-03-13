@@ -1,5 +1,8 @@
 <tool id="plot_smb_tiff" name="Plot SMB Image" version="0.1.0" python_template_version="3.9">
     <description>Plot an image for the SMB file schema</description>
+    <requirements>
+        <requirement type="package" version="3.5.2">matplotlib</requirement>
+    </requirements>
     <command detect_errors="exit_code"><![CDATA[
         $__tool_directory__/plot_smb_tiff.py
         --cycle '$cycle'
