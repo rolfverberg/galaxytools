@@ -13,6 +13,10 @@ def __main__():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
             description='Plot an image for the SMB schema')
+    parser.add_argument('-o', '--output_file',
+            required=True,
+            type=pathlib.Path,
+            help='''Full or relative path to the output file.''')
     parser.add_argument('--cycle',
             required=True,
             help='''Run cycle.''')
@@ -124,7 +128,7 @@ def __main__():
     title = 'image_files[0]'
     plt.figure(title)
     plt.imshow(data)
-    plt.savefig('image.jpg')
+    plt.savefig(args.output_file)
     plt.close(fig=title)
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import pathlib
 import sys
 #import tracemalloc
 
-from workflow.run_tomo import Tomo
+from run_tomo import Tomo
 
 #from memory_profiler import profile
 #@profile
@@ -20,7 +20,7 @@ def __main__():
             type=pathlib.Path,
             help='''Full or relative path to the input file (in yaml or nxs format).''')
     parser.add_argument('-o', '--output_file',
-            required=False,
+            required=True,
             type=pathlib.Path,
             help='''Full or relative path to the output file (in Nexus format).''')
     parser.add_argument('--galaxy_flag',
