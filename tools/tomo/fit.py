@@ -35,10 +35,18 @@ try:
 except:
     have_xarray = False
 
-#from .general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
-#        almost_equal, quick_plot #, eval_expr
-#from sys import path as syspath
-#syspath.append(f'/nfs/chess/user/rv43/msnctools/msnctools')
+#try:
+#    from .general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+#            almost_equal, quick_plot #, eval_expr
+#except:
+#    try:
+#        from sys import path as syspath
+#        syspath.append(f'/nfs/chess/user/rv43/msnctools/msnctools')
+#        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+#                almost_equal, quick_plot #, eval_expr
+#    except:
+#        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+#                almost_equal, quick_plot #, eval_expr
 from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
         almost_equal, quick_plot #, eval_expr
 
@@ -1813,8 +1821,8 @@ class FitMap(Fit):
             self.fit(**kwargs)
 
     @classmethod
-    def fit_map(cls, x, ymap, models, normalize=True, **kwargs):
-        return(cls(x, ymap, models, normalize=normalize, **kwargs))
+    def fit_map(cls, ymap, models, x=None, normalize=True, **kwargs):
+        return(cls(ymap, x=x, models=models, normalize=normalize, **kwargs))
 
     @property
     def best_errors(self):

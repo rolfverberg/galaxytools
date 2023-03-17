@@ -7,7 +7,7 @@ import pathlib
 import sys
 #import tracemalloc
 
-from run_tomo import Tomo
+from workflow.run_tomo import Tomo
 
 #from memory_profiler import profile
 #@profile
