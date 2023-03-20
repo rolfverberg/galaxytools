@@ -1,0 +1,6 @@
+categories:
+- Structural Materials Analysis
+description: A set of tools to reconstruct tomography images
+name: chess_tomo
+owner: rv43
+remote_repository_url: https://github.com/rolfverberg/galaxytools

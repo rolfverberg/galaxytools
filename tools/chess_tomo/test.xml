@@ -1,0 +1,21 @@
+<tool id="test" name="Test" version="0.1.0" python_template_version="3.9">
+    <description>Test</description>
+    <command detect_errors="exit_code"><![CDATA[
+        $__tool_directory__/test.py
+        -l '$log'
+    ]]></command>
+    <outputs>
+        <data name="log" format="txt" label="Log"/>
+    </outputs>
+    <help><![CDATA[
+        Test.
+    ]]></help>
+    <citations>
+        <citation type="bibtex">
+@misc{test,
+  author = {Verberg, Rolf},
+  year = {2022},
+  title = {Test},
+}</citation>
+    </citations>
+</tool>
