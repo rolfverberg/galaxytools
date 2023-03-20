@@ -1,4 +1,4 @@
-<tool id="test" name="Test" version="0.1.0" python_template_version="3.9">
+<tool id="test" name="Test" version="0.1.1" python_template_version="3.9">
     <description>Test</description>
     <command detect_errors="exit_code"><![CDATA[
         $__tool_directory__/test.py
