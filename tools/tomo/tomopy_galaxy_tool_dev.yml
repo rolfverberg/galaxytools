@@ -1,11 +1,16 @@
-name: tomopy_galaxy
+name: tomopy_galaxy_tool_dev
 channels:
   - conda-forge
   - defaults
 dependencies:
+#  - ephemeris
   - lmfit==1.1.0
   - matplotlib==3.7.1
   - nexusformat==1.0.0
   - pip==23.0.1
+  - pydantic==1.10.6
   - python==3.9.13
   - tomopy==1.12.2
+  - pip:
+    - bioblend==1.1.1
+    - planemo==0.75.7
