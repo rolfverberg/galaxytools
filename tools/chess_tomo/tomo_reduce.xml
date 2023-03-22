@@ -11,8 +11,10 @@
             --input_file "$input_file"
             --output_file "output.nex"
             --galaxy_flag
-            #if str($img_bounds.type_selector) == "enter_range"
-                --img_x_bounds $img_bounds.low $img_bounds.upp
+            #if str($station.type_selector) == "id3b"
+                #if str($station.img_bounds.type_selector) == "enter_range"
+                    --img_x_bounds $station.img_bounds.low $station.img_bounds.upp
+                #end if
             #end if
             -l "$log"
         ]]>
