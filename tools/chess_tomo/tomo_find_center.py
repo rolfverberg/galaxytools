@@ -14,23 +14,22 @@ from workflow.run_tomo import Tomo
 def __main__():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-            description='Reduce tomography data')
+            description='Find the center axis for a tomography reconstruction')
     parser.add_argument('-i', '--input_file',
             required=True,
             type=pathlib.Path,
-            help='''Full or relative path to the input file (in yaml or Nexus format).''')
+            help='''Full or relative path to the input file (in Nexus format).''')
     parser.add_argument('-o', '--output_file',
-            required=True,
+            required=False,
             type=pathlib.Path,
-            help='''Full or relative path to the output file (in Nexus format).''')
+            help='''Full or relative path to the output file (in yaml format).''')
+    parser.add_argument('--center_rows',
+            nargs=2,
+            type=int,
+            help='''Center finding rows.''')
     parser.add_argument('--galaxy_flag',
             action='store_true',
             help='''Use this flag to run the scripts as a galaxy tool.''')
-    parser.add_argument('--img_x_bounds',
-            required=False,
-            nargs=2,
-            type=int,
-            help='Vertical data reduction image range')
     parser.add_argument('-l', '--log',
 #            type=argparse.FileType('w'),
             default=sys.stdout,
@@ -62,14 +61,14 @@ def __main__():
         stream_handler.setLevel(logging.WARNING)
         stream_handler.setFormatter(logging.Formatter(logging_format))
 
-    # Start memory monitoring
+    # Starting memory monitoring
 #    tracemalloc.start()
 
     # Log command line arguments
     logging.info(f'input_file = {args.input_file}')
     logging.info(f'output_file = {args.output_file}')
+    logging.info(f'center_rows = {args.center_rows}')
     logging.info(f'galaxy_flag = {args.galaxy_flag}')
-    logging.info(f'img_x_bounds = {args.img_x_bounds}')
     logging.debug(f'log = {args.log}')
     logging.debug(f'is log stdout? {args.log is sys.stdout}')
     logging.debug(f'log_level = {args.log_level}')
@@ -80,8 +79,8 @@ def __main__():
     # Read input file
     data = tomo.read(args.input_file)
 
-    # Generate reduced tomography images
-    data = tomo.gen_reduced_data(data, img_x_bounds=args.img_x_bounds)
+    # Find the calibrated center axis info
+    data = tomo.find_centers(data, center_rows=args.center_rows)
 
     # Write output file
     data = tomo.write(data, args.output_file)
@@ -89,10 +88,10 @@ def __main__():
     # Displaying memory usage
 #    logging.info(f'Memory usage: {tracemalloc.get_traced_memory()}')
  
-    # Stop memory monitoring
+    # stopping memory monitoring
 #    tracemalloc.stop()
 
-    logging.info('Completed tomography data reduction')
+    logging.info('Completed find center axis')
 
 
 if __name__ == "__main__":
