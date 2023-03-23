@@ -35,20 +35,18 @@ try:
 except:
     have_xarray = False
 
-#try:
-#    from .general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
-#            almost_equal, quick_plot #, eval_expr
-#except:
-#    try:
-#        from sys import path as syspath
-#        syspath.append(f'/nfs/chess/user/rv43/msnctools/msnctools')
-#        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
-#                almost_equal, quick_plot #, eval_expr
-#    except:
-#        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
-#                almost_equal, quick_plot #, eval_expr
-from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
-        almost_equal, quick_plot #, eval_expr
+try:
+    from .general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+            almost_equal, quick_plot #, eval_expr
+except:
+    try:
+        from sys import path as syspath
+        syspath.append(f'/nfs/chess/user/rv43/msnctools/msnctools')
+        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+                almost_equal, quick_plot #, eval_expr
+    except:
+        from general import illegal_value, is_int, is_dict_series, is_index, index_nearest, \
+                almost_equal, quick_plot #, eval_expr
 
 from sys import float_info
 float_min = float_info.min

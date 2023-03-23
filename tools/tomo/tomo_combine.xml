@@ -1,44 +1,56 @@
-<tool id="tomo_combine" name="Tomo Combine Reconstructed Stacks" version="0.2.0" python_template_version="3.9">
+<tool id="tomo_combine" name="Tomo Combine Reconstructed Stacks" version="1.0.0" python_template_version="3.9">
     <description>Combine reconstructed tomography stacks</description>
     <macros>
         <import>tomo_macros.xml</import>
     </macros>
     <expand macro="requirements" />
-    <command detect_errors="exit_code"><![CDATA[
-        mkdir combine_pngs;
-        $__tool_directory__/tomo_combine.py
-        -i '$recon_stacks'
-        -c '$config'
-        --x_bounds $x_bounds.low $x_bounds.upp
-        --y_bounds $y_bounds.low $y_bounds.upp
-        --z_bounds $z_bounds.low $z_bounds.upp
-        --output_data 'output_data.npy'
-        --output_config 'output_config.yaml'
-        -l '$log'
-    ]]></command>
+    <command detect_errors="exit_code">
+        <![CDATA[
+            mkdir tomo_combine_plots;
+            $__tool_directory__/tomo_combine.py
+            --input_file "$input_file"
+            --output_file "output.nex"
+            --galaxy_flag
+            #if str($x_bounds.type_selector) == "enter_range"
+                --x_bounds $x_bounds.low $x_bounds.upp
+            #end if
+            #if str($y_bounds.type_selector) == "enter_range"
+                --y_bounds $y_bounds.low $y_bounds.upp
+            #end if
+            -l '$log'
+        ]]>
+    </command>
     <inputs>
-        <expand macro="common_inputs"/>
-        <param name="recon_stacks" type='data' format='npz' optional='false' label="Reconstructed stacks"/>
-        <section name="x_bounds" title="Reconstructed range in x direction">
-            <param name="low" type="integer" value = "-1" label="Lower x-bound"/>
-            <param name="upp" type="integer" value = "-1" label="Upper x-bound"/>
-        </section>
-        <section name="y_bounds" title="Reconstructed range in y direction">
-            <param name="low" type="integer" value = "-1" label="Lower y-bound"/>
-            <param name="upp" type="integer" value = "-1" label="Upper y-bound"/>
-        </section>
-        <section name="z_bounds" title="Reconstructed range in z direction">
-            <param name="low" type="integer" value = "-1" label="Lower z-bound"/>
-            <param name="upp" type="integer" value = "-1" label="Upper z-bound"/>
-        </section>
+        <param name="input_file" type="data" format="nex" optional="false" label="Reconstructed tomography data"/>
+        <conditional name="x_bounds">
+            <param name="type_selector" type="select" label="Choose reconstructed image range in x-direction">
+                <option value="full_range" selected="true">Use the full image range</option>
+                <option value="enter_range">Manually enter the image range</option>
+            </param>
+            <when value="full_range"/>
+            <when value="enter_range">
+                <param name="low" type="integer" value="-1" optional="false" label="Lower image range index in x-direction"/>
+                <param name="upp" type="integer" value="-1" optional="false" label="Upper image range index in x-direction"/>
+            </when>
+        </conditional>
+        <conditional name="y_bounds">
+            <param name="type_selector" type="select" label="Choose reconstructed image range in y-direction">
+                <option value="full_range" selected="true">Use the full image range</option>
+                <option value="enter_range">Manually enter the image range</option>
+            </param>
+            <when value="full_range"/>
+            <when value="enter_range">
+                <param name="low" type="integer" value="-1" optional="false" label="Lower image range index in y-direction"/>
+                <param name="upp" type="integer" value="-1" optional="false" label="Upper image range index in y-direction"/>
+            </when>
+        </conditional>
     </inputs>
     <outputs>
         <expand macro="common_outputs"/>
-        <data name="output_data" format="npy" label="Combined tomography stacks" from_work_dir="output_data.npy"/>
-        <collection name="combine_pngs" type="list" label="Recontructed slices midway in each combined dimension">
-            <discover_datasets pattern="__name_and_ext__" directory="combine_pngs"/>
+        <collection name="tomo_combine_plots" type="list" label="Combine recontructed data images">
+            <discover_datasets pattern="__name_and_ext__" directory="tomo_combine_plots"/>
         </collection>
-        <data name="output_config" format="tomo.config.yaml" label="Output config combine reconstruction" from_work_dir="output_config.yaml"/>
+        <data name="output_file" format="nex" label="Reconstructed tomography data" from_work_dir="output.nex"/>
     </outputs>
     <help><![CDATA[
         Combine reconstructed tomography images.
