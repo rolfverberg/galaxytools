@@ -568,17 +568,17 @@ class Tomo:
         if num_tomo_stacks == 1:
             basetitle = 'recon'
         else:
-            basetitle = f'recon stack {i+1}'
+            basetitle = f'recon stack'
         for i, stack in enumerate(tomo_recon_stacks):
-            title = f'{basetitle} {res_title} xslice{x_slice}'
+            title = f'{basetitle} {i+1} {res_title} xslice{x_slice}'
             quick_imshow(stack[z_range[0]:z_range[1],x_slice,y_range[0]:y_range[1]],
                     title=title, path=path, save_fig=self.save_figs, save_only=self.save_only,
                     block=self.block)
-            title = f'{basetitle} {res_title} yslice{y_slice}'
+            title = f'{basetitle} {i+1} {res_title} yslice{y_slice}'
             quick_imshow(stack[z_range[0]:z_range[1],x_range[0]:x_range[1],y_slice],
                     title=title, path=path, save_fig=self.save_figs, save_only=self.save_only,
                     block=self.block)
-            title = f'{basetitle} {res_title} zslice{z_slice}'
+            title = f'{basetitle} {i+1} {res_title} zslice{z_slice}'
             quick_imshow(stack[z_slice,x_range[0]:x_range[1],y_range[0]:y_range[1]],
                     title=title, path=path, save_fig=self.save_figs, save_only=self.save_only,
                     block=self.block)
