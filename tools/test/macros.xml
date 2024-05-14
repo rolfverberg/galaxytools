@@ -1,0 +1,22 @@
+<macros>
+    <xml name="requirements">
+        <requirements>
+            <requirement type="package" version="3.7.1">matplotlib</requirement>
+            <requirement type="package" version="1.0.2">nexusformat</requirement>
+        </requirements>
+    </xml>
+    <xml name="citations">
+        <citations>
+            <citation type="bibtex">
+@misc{test,
+  author = {Verberg, Rolf},
+  year = {2024},
+  title = {Test},
+}</citation>
+        </citations>
+    </xml>
+    <xml name="common_outputs">
+        <data name="log" format="txt" label="Log"/>
+    </xml>
+</macros>
+ 

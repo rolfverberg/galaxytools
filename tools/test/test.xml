@@ -1,0 +1,24 @@
+<tool id="test" name="Test NeXus reader" version="1.0.0" python_template_version="3.9">
+    <description>Test NeXus reader</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command detect_errors="exit_code">
+        <![CDATA[
+            $__tool_directory__/test_reader.py
+            --input_file "$input_file"
+            -l '$log'
+        ]]>
+    </command>
+    <inputs>
+        <param name="input_file" type="data" format="nex" optional="false" label="Reconstructed tomography data"/>
+    </inputs>
+    <outputs>
+        <expand macro="common_outputs"/>
+    </outputs>
+    <help><![CDATA[
+        Test NeXus reader.
+    ]]></help>
+    <expand macro="citations"/>
+</tool>

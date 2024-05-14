@@ -1,0 +1,7 @@
+name: test
+owner: ximgchess
+description: A set to read a NeXus file
+remote_repository_url: https://github.com/rolfverberg/galaxytools
+type: unrestricted
+categories:
+- Structural Materials Analysis
